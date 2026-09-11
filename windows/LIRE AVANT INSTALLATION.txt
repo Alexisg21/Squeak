@@ -1,0 +1,10 @@
+SQUEAK - Windows x64
+1. Extraire entierement le ZIP.
+2. Ouvrir Installer Squeak.bat.
+3. Accepter la demande Windows pour le certificat local Squeak et son menu.
+L'application, son moteur et le menu clic droit sont installes ensemble.
+Windows 11 : menu principal. Windows 10 : menu classique.
+Le certificat est local, pas une signature commerciale reconnue publiquement.
+L'installation peut donc afficher un avertissement Windows.
+L'extension Chrome/Edge reste a activer manuellement dans le navigateur.
+Aucune liste personnelle n'est incluse. P + Suppr est le raccourci par defaut.

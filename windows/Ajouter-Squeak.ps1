@@ -1,0 +1,1 @@
+﻿& (Join-Path $PSScriptRoot 'StartSafe.ps1') @args

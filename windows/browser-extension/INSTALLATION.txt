@@ -1,0 +1,36 @@
+INTEGRER A SQUEAK - EDGE ET GOOGLE CHROME
+
+L'extension est identique pour les deux navigateurs. Il faut la charger une fois
+dans chaque navigateur et profil utilise.
+
+1. Ouvrir edge://extensions dans Edge ou chrome://extensions dans Chrome.
+2. Activer le mode developpeur si necessaire.
+3. Cliquer sur Charger l'extension non empaquetee / Charger non empaquete.
+4. Selectionner ce dossier browser-extension.
+5. Epingler l'extension SQUEAK depuis le bouton Extensions du navigateur.
+
+Le connecteur Windows est installe par Installer les navigateurs.ps1,
+dans le dossier parent Squeak. Aucun compte ni serveur externe n'est utilise.
+
+UTILISATION
+Clic droit sur un onglet (si cette fonction est disponible dans le navigateur),
+sur la page, ou sur un lien : Integrer a SQUEAK.
+- Ajouter ce site : ajoute le domaine exact, avec ses pages.
+- Ajouter cette page uniquement : ajoute cette adresse exacte.
+- Verifier si deja integre : affiche le statut dans la fenetre de l'extension.
+Le bouton SQUEAK dans la barre du navigateur propose les memes actions et
+indique si l'element est deja ajoute, y compris s'il est decoche dans Squeak.
+
+Les menus contextuels restent generiques pour ne pas afficher le statut du
+mauvais onglet lorsqu'on clique sur un onglet en arriere-plan. Le statut exact
+est verifie apres le clic. Les pages internes edge:// et chrome:// sont exclues.
+
+AUTORISATIONS
+contextMenus : ajoute le menu.
+tabs : lit l'adresse de l'onglet pour verifier son integration localement.
+nativeMessaging : communique uniquement avec le connecteur local Squeak autorise.
+storage : conserve le support du menu d'onglet et le dernier resultat de session.
+Aucun script n'est injecte dans les pages, aucun contenu de conversation n'est lu.
+
+Conservez ce dossier a son emplacement apres le chargement de l'extension.
+En cas de mise a jour, cliquez sur Recharger sur sa fiche dans chaque navigateur.

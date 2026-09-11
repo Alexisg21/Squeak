@@ -1,0 +1,24 @@
+SQUEAK macOS — version initiale à compiler et tester sur Mac
+
+Ce dossier contient une nouvelle implémentation native, pas la version AutoHotkey Windows.
+Elle n'a pas pu être compilée ou exécutée depuis le poste Windows de développement.
+Ne pas la présenter comme une version stable prête pour tous les utilisateurs.
+
+Sur un Mac (macOS 12 minimum) avec les outils de développement Apple :
+1. Ouvrir Terminal et se placer dans ce dossier.
+2. Exécuter : bash "Installer Squeak.command"
+L'installation compile Squeak dans ~/Applications et inscrit son service Finder.
+Dans Finder : clic droit sur une application .app ou un raccourci .webloc,
+puis Services > Intégrer à Squeak. macOS peut demander d'activer ce service
+dans Réglages système > Clavier > Raccourcis clavier > Services.
+
+Autoriser Accessibilité pour le raccourci global et Automatisation pour Safari,
+Chrome ou Edge. Ces autorisations doivent être accordées par l'utilisateur.
+P + Suppr avant (Fn + Retour arrière sur certains claviers) ferme les éléments cochés.
+Seul l'onglet au premier plan est examiné. Les applications peuvent demander une sauvegarde.
+La liste se trouve dans ~/Library/Application Support/Squeak/items.json.
+
+Avant diffusion générale : compiler et tester sur Mac Intel et Apple Silicon,
+valider le service Finder et les autorisations, puis signer avec un certificat
+Apple Developer ID et notariser l'application. La signature locale de ce script
+ne remplace pas cette étape. L'extension navigateur Windows n'est pas portée ici.

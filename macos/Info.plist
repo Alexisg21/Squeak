@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0"><dict>
+<key>CFBundleName</key><string>Squeak</string><key>CFBundleDisplayName</key><string>Squeak</string>
+<key>CFBundleIdentifier</key><string>local.squeak.desktop</string><key>CFBundleExecutable</key><string>Squeak</string>
+<key>CFBundlePackageType</key><string>APPL</string><key>CFBundleVersion</key><string>1</string><key>CFBundleShortVersionString</key><string>0.1.0</string>
+<key>LSMinimumSystemVersion</key><string>12.0</string><key>NSHighResolutionCapable</key><true/>
+<key>NSAppleEventsUsageDescription</key><string>Squeak lit et ferme l’onglet actif correspondant aux sites que vous avez cochés.</string>
+<key>NSServices</key><array><dict><key>NSMenuItem</key><dict><key>default</key><string>Intégrer à Squeak</string></dict><key>NSMessage</key><string>integrate</string><key>NSPortName</key><string>Squeak</string><key>NSSendTypes</key><array><string>NSFilenamesPboardType</string><string>public.file-url</string></array><key>NSRequiredContext</key><dict/></dict></array>
+</dict></plist>
