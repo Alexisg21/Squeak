@@ -1,7 +1,7 @@
 SQUEAK macOS — version initiale à compiler et tester sur Mac
 
 Ce dossier contient une nouvelle implémentation native, pas la version AutoHotkey Windows.
-Elle n'a pas pu être compilée ou exécutée depuis le poste Windows de développement.
+Compilation et tests automatiques validés sur un runner macOS GitHub Actions.
 Ne pas la présenter comme une version stable prête pour tous les utilisateurs.
 
 Sur un Mac (macOS 12 minimum) avec les outils de développement Apple :

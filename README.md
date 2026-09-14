@@ -24,7 +24,7 @@ L’extension Chrome/Edge est incluse, mais son activation dans chaque navigateu
 
 [Télécharger les sources macOS](downloads/Squeak-macOS-sources.zip?raw=true)
 
-**Cette version n’a pas encore été compilée ni testée sur Mac. Ce n’est pas une version stable prête à installer pour le grand public.**
+**Compilation macOS et tests automatiques validés sur GitHub Actions. Les essais interactifs dans Chrome/Edge et le Finder restent à effectuer : cette version reste expérimentale.**
 
 Elle nécessite macOS 12 ou ultérieur et les outils de développement Apple. Dans Terminal, depuis le dossier extrait :
 
