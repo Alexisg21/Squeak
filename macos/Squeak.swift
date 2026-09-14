@@ -1,12 +1,6 @@
 import Cocoa
 import ApplicationServices
 
-struct Entry: Codable {
-    var value: String
-    var application: Bool
-    var enabled: Bool = true
-}
-
 final class Squeak: NSObject, NSApplicationDelegate {
     var window: NSWindow!
     var rows = NSStackView()
@@ -69,15 +63,15 @@ final class Squeak: NSObject, NSApplicationDelegate {
         if e.keyCode == 35 { pDown = e.type == .keyDown }
         if e.keyCode == 117 && e.type == .keyDown && pDown && !e.isARepeat { closeNow() }
     }
-    func save() {
-        do { try FileManager.default.createDirectory(at: config.deletingLastPathComponent(), withIntermediateDirectories: true); try JSONEncoder().encode(entries).write(to: config, options: .atomic) }
-        catch { status.stringValue = "Sauvegarde impossible : \(error.localizedDescription)" }
+    @discardableResult func save() -> Bool {
+        do { try FileManager.default.createDirectory(at: config.deletingLastPathComponent(), withIntermediateDirectories: true); try JSONEncoder().encode(entries).write(to: config, options: .atomic); return true }
+        catch { status.stringValue = "Sauvegarde impossible : \(error.localizedDescription)"; return false }
     }
     func render() {
         rows.arrangedSubviews.forEach { rows.removeArrangedSubview($0); $0.removeFromSuperview() }
         for (index, entry) in entries.enumerated() {
             let label = entry.application ? URL(fileURLWithPath: entry.value).deletingPathExtension().lastPathComponent : entry.value
-            let check = NSButton(checkboxWithTitle: label, target: self, action: #selector(toggle(_:))); check.tag = index; check.state = entry.enabled ? .on : .off
+            let check = NSButton(checkboxWithTitle: label + (entry.exact == true ? " (page exacte)" : ""), target: self, action: #selector(toggle(_:))); check.tag = index; check.state = entry.enabled ? .on : .off
             let remove = button("Retirer", #selector(removeEntry(_:))); remove.tag = index
             rows.addArrangedSubview(NSStackView(views: [check, remove]))
         }
@@ -98,12 +92,26 @@ final class Squeak: NSObject, NSApplicationDelegate {
         if !entries.contains(where: { $0.value == entry.value }) { entries.append(entry); save(); render() }
         status.stringValue = "Intégré à Squeak."; return true
     }
+    func browserRequest(_ path: String) {
+        let file = URL(fileURLWithPath: path).standardizedFileURL.resolvingSymlinksInPath()
+        guard file.deletingLastPathComponent() == BrowserModel.inbox.standardizedFileURL.resolvingSymlinksInPath(), file.pathExtension == "squeakrequest",
+              UUID(uuidString: file.deletingPathExtension().lastPathComponent) != nil else { return }
+        var result: [String: Any] = ["ok": false, "error": "Ajout refusé."]
+        if let data = try? Data(contentsOf: file), data.count <= 32768,
+           let request = try? JSONDecoder().decode(BrowserRequest.self, from: data), let entry = BrowserModel.entry(request) {
+            let previous = entries
+            if !entries.contains(where: { !$0.application && $0.value == entry.value && ($0.exact == true) == (entry.exact == true) }) { entries.append(entry) }
+            if save() { render(); result = BrowserModel.status(request.url, entries); status.stringValue = "Ajout reçu du navigateur." }
+            else { entries = previous; result = ["ok": false, "error": "Sauvegarde impossible dans Squeak."] }
+        }
+        if let data = try? JSONSerialization.data(withJSONObject: result) { try? data.write(to: file.appendingPathExtension("reply"), options: .atomic) }
+    }
     @objc func integrate(_ pasteboard: NSPasteboard, userData: String?, error: AutoreleasingUnsafeMutablePointer<NSString?>) {
         let urls = pasteboard.readObjects(forClasses: [NSURL.self], options: [.urlReadingFileURLsOnly: true]) as? [URL] ?? []
         for url in urls { add(url.path) }; show()
         if urls.isEmpty { error.pointee = "Aucun fichier compatible reçu." }
     }
-    func application(_ sender: NSApplication, openFiles filenames: [String]) { for file in filenames { add(file) }; show(); sender.reply(toOpenOrPrint: .success) }
+    func application(_ sender: NSApplication, openFiles filenames: [String]) { for file in filenames { if URL(fileURLWithPath: file).pathExtension == "squeakrequest" { browserRequest(file) } else { add(file) } }; show(); sender.reply(toOpenOrPrint: .success) }
     func matches(_ current: String, _ expected: String) -> Bool {
         guard let a = URLComponents(string: current), let b = URLComponents(string: expected), let ah = a.host, let bh = b.host else { return false }
         func host(_ s: String) -> String { let lower = s.lowercased(); return lower.hasPrefix("www.") ? String(lower.dropFirst(4)) : lower }
@@ -122,7 +130,7 @@ final class Squeak: NSObject, NSApplicationDelegate {
                 let tab = id == "com.apple.Safari" ? "current tab of front window" : "active tab of front window"
                 var err: NSDictionary?
                 let address = NSAppleScript(source: "tell application id \"\(id)\" to get URL of \(tab)")?.executeAndReturnError(&err).stringValue
-                if let address = address, sites.contains(where: { matches(address, $0.value) }), NSWorkspace.shared.frontmostApplication?.processIdentifier == front.processIdentifier {
+                if let address = address, sites.contains(where: { BrowserModel.matches(address, $0.value, exact: $0.exact == true) }), NSWorkspace.shared.frontmostApplication?.processIdentifier == front.processIdentifier {
                     // Recheck the URL in the same script that closes to avoid closing a changed tab.
                     let escaped = address.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"")
                     _ = NSAppleScript(source: "tell application id \"\(id)\"\nif URL of \(tab) is \"\(escaped)\" then close \(tab)\nend tell")?.executeAndReturnError(&err)

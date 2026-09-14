@@ -1,0 +1,23 @@
+name: macOS build and browser checks
+on:
+  push:
+    paths: ['macos/**', '.github/workflows/macos.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  macos:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v4
+      - name: Build app and native messaging host
+        run: bash macos/Build.command "$RUNNER_TEMP/Squeak.app"
+      - name: Test shared URL model
+        run: |
+          cp macos/TestModel.swift "$RUNNER_TEMP/main.swift"
+          xcrun swiftc -swift-version 5 macos/BrowserModel.swift "$RUNNER_TEMP/main.swift" -o "$RUNNER_TEMP/model-tests"
+          "$RUNNER_TEMP/model-tests"
+      - name: Test native protocol
+        run: python3 macos/TestHost.py "$RUNNER_TEMP/Squeak.app/Contents/MacOS/SqueakBrowserHost"
+      - name: Test extension
+        run: node macos/browser-extension/test.mjs

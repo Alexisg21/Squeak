@@ -7,10 +7,7 @@ if ! xcrun --find swiftc >/dev/null 2>&1; then
 fi
 work="$(mktemp -d "${TMPDIR:-/tmp}/squeak-build.XXXXXX")"
 app="$work/Squeak.app"
-mkdir -p "$app/Contents/MacOS" "$app/Contents/Resources"
-xcrun swiftc -swift-version 5 -O -framework Cocoa -framework ApplicationServices Squeak.swift -o "$app/Contents/MacOS/Squeak"
-cp Info.plist "$app/Contents/Info.plist"
-codesign --force --sign - "$app"
+bash Build.command "$app"
 mkdir -p "$HOME/Applications"
 if [ -d "$HOME/Applications/Squeak.app" ]; then
   if pgrep -f "$HOME/Applications/Squeak.app/Contents/MacOS/Squeak" >/dev/null; then
@@ -20,5 +17,6 @@ if [ -d "$HOME/Applications/Squeak.app" ]; then
 fi
 ditto "$app" "$HOME/Applications/Squeak.app"
 /System/Library/Frameworks/CoreServices.framework/Frameworks/LaunchServices.framework/Support/lsregister -f "$HOME/Applications/Squeak.app"
+"$HOME/Applications/Squeak.app/Contents/MacOS/SqueakRegisterBrowsers" "$HOME/Applications/Squeak.app"
 open "$HOME/Applications/Squeak.app"
 echo "Squeak et son service Finder sont installés. Le menu se trouve dans Services > Intégrer à Squeak."

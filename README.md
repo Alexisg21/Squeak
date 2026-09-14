@@ -34,6 +34,8 @@ bash "Installer Squeak.command"
 
 Le script compile l’application dans `~/Applications` et inscrit son service **Services → Intégrer à Squeak** dans le Finder. macOS peut nécessiter l’activation du service et des autorisations Accessibilité et Automatisation. La signature Apple Developer ID, la notarisation et les tests Intel/Apple Silicon restent à réaliser avant une diffusion générale.
 
+La liaison **Chrome et Edge pour macOS** est incluse et enregistrée automatiquement pendant l’installation. Chargez ensuite `macos/browser-extension` dans chaque navigateur : [instructions macOS](macos/browser-extension/INSTALLATION.txt). Elle permet d’ajouter un site ou une page exacte et de vérifier son état dans Squeak. Safari n’est pas couvert par cette extension.
+
 ## Contenu
 
 - `downloads/` : archives à télécharger.

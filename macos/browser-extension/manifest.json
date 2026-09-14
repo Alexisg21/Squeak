@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Intégrer à SQUEAK",
+  "version": "1.0.0",
+  "description": "Ajoutez un site ou une page à votre application Squeak locale.",
+  "permissions": [
+    "contextMenus",
+    "nativeMessaging",
+    "tabs",
+    "storage"
+  ],
+  "background": {
+    "service_worker": "background.js",
+    "type": "module"
+  },
+  "action": {
+    "default_title": "Intégrer à SQUEAK",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icons/16.png",
+    "32": "icons/32.png",
+    "48": "icons/48.png",
+    "128": "icons/128.png"
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAz3uHrWW1otIJCd6qWBaRho1Mb6ur7kGpDrG670uufMphXLeVuUzn6f85pLscq5f5uw/zx77pLzuSV3e8Guwzoy6sUnZViqME5Ki1pTgv9JRDT59vyRFG5lQRu5jLhXW3jk+Xa1N/9ZcJna5oeit+ssrs/LnPWjK/yWQbB7Vg53bObVmykGEUifzn3JoHfdrGcRfTTLq874Zho2X0VhbGWhZkzMadYRY8CUZoCMkQ6TRT17Q+LhBaIRO8i3npw14oJG3ZhtBfFzjQwEt+qsftnJs5AsYcID3eNNU05itFkQCHfbg7SBVF+rW87KGhglyf2DSbGTNAtsfG8FfaUiqb7QIDAQAB"
+}

@@ -1,0 +1,17 @@
+#!/bin/bash
+set -euo pipefail
+cd "$(dirname "$0")"
+output="${1:?Usage: bash Build.command /chemin/vers/Squeak.app}"
+work="$(mktemp -d "${TMPDIR:-/tmp}/squeak-compile.XXXXXX")"
+mkdir -p "$output/Contents/MacOS" "$output/Contents/Resources"
+cp Squeak.swift "$work/main.swift"
+xcrun swiftc -swift-version 5 -O -framework Cocoa -framework ApplicationServices BrowserModel.swift "$work/main.swift" -o "$output/Contents/MacOS/Squeak"
+cp BrowserHost.swift "$work/main.swift"
+xcrun swiftc -swift-version 5 -O BrowserModel.swift "$work/main.swift" -o "$output/Contents/MacOS/SqueakBrowserHost"
+cp RegisterBrowsers.swift "$work/main.swift"
+xcrun swiftc -swift-version 5 -O BrowserModel.swift "$work/main.swift" -o "$output/Contents/MacOS/SqueakRegisterBrowsers"
+cp Info.plist "$output/Contents/Info.plist"
+cp -R browser-extension "$output/Contents/Resources/browser-extension"
+codesign --force --sign - "$output/Contents/MacOS/SqueakBrowserHost"
+codesign --force --sign - "$output/Contents/MacOS/SqueakRegisterBrowsers"
+codesign --force --sign - "$output"

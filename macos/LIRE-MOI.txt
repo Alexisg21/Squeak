@@ -21,4 +21,5 @@ La liste se trouve dans ~/Library/Application Support/Squeak/items.json.
 Avant diffusion générale : compiler et tester sur Mac Intel et Apple Silicon,
 valider le service Finder et les autorisations, puis signer avec un certificat
 Apple Developer ID et notariser l'application. La signature locale de ce script
-ne remplace pas cette étape. L'extension navigateur Windows n'est pas portée ici.
+ne remplace pas cette étape. La liaison Chrome/Edge est incluse :
+voir browser-extension/INSTALLATION.txt pour l'activation dans les navigateurs.

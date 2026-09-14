@@ -1,0 +1,23 @@
+Chrome et Edge sur macOS
+
+1. Depuis Terminal, exécuter bash "Installer Squeak.command" dans le dossier macos.
+   La compilation installe l'application et inscrit automatiquement la liaison locale
+   pour Chrome et Edge, uniquement pour le compte utilisateur courant.
+2. Dans Chrome : chrome://extensions ; dans Edge : edge://extensions.
+3. Activer le mode développeur puis Charger l'extension non empaquetée.
+4. Sélectionner le dossier browser-extension inclus ici, ou la copie installée dans
+   ~/Applications/Squeak.app/Contents/Resources/browser-extension.
+5. Sur une page web : clic droit > Intégrer à SQUEAK, ou cliquer sur l'icône de l'extension.
+
+Commandes : Ajouter ce site, Ajouter cette page uniquement, Vérifier si déjà intégré.
+L'extension ne ferme pas d'onglet elle-même ; elle ajoute les éléments à Squeak.
+La liaison vérifie l'identifiant de l'extension, les méthodes et les URL HTTP/S.
+Les ajouts sont enregistrés par Squeak, pour préserver les modifications de la fenêtre.
+
+Les manifestes sont inscrits dans :
+~/Library/Application Support/Google/Chrome/NativeMessagingHosts/com.squeak.desktop.json
+~/Library/Application Support/Microsoft Edge/NativeMessagingHosts/com.squeak.desktop.json
+
+En cas de déplacement de Squeak, relancer son installateur pour actualiser ces chemins.
+Safari n'est pas couvert par cette extension Chrome/Edge.
+La validation interactive dans les navigateurs macOS reste à effectuer.
